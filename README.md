@@ -4,13 +4,7 @@
 
 - **KernelSU**: 由[tiann](https://github.com/tiann)开发
 
-- **KernelSU Next**: 由[rifsxd](https://github.com/rifsxd)开发
-
-- **Magic Mount KernelSU**: 由[5ec1cff](https://github.com/5ec1cff)开发
-
 - **Rissu KernelSU**: 由[rsuntk](https://github.com/rsuntk)开发
-
-- **SukiKSU(MKSU-SKN)**: 由[ShirkNeko](https://github.com/ShirkNeko/)开发
 
 - **SUSFS**: 由[simonpunk](https://gitlab.com/simonpunk/susfs4ksu.git)开发
   
