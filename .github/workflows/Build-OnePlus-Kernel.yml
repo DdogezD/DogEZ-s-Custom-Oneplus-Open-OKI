@@ -191,40 +191,6 @@ jobs:
           echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_TMPFS_XATTR=y" >> ./common/arch/arm64/configs/gki_defconfig
 
-          echo "CONFIG_DOCKER=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_PID_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IPC_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_CGROUP_DEVICE=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_BRIDGE_NETFILTER=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IP6_NF_TARGET_MASQUERADE=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_NETFILTER_XT_MATCH_IPVS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IP6_NF_NAT=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_POSIX_MQUEUE=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_CGROUP_PIDS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_CGROUP_PERF=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "DEVPTS_MULTIPLE_INSTANCES=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_CGROUP_HUGETLB=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_NET_CLS_CGROUP=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_CFS_BANDWIDTH=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IP_VS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IP_VS_NFCT=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IP_VS_PROTO_TCP=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IP_VS_PROTO_UDP=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IP_VS_RR=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_SECURITY_APPARMOR=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_VXLAN=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_BRIDGE_VLAN_FILTERIN=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_IPVLAN=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_MACVLAN=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_BTRFS_FS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_BTRFS_FS_POSIX_ACL=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_ZFS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_SPL=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_ZPOOL=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_ZFS_DEBUG=n" >> ./common/arch/arm64/configs/gki_defconfig
-          
           sed -i 's/check_defconfig//' ./common/build.config.gki
           
       - name: Handle KernelSU Version
