@@ -171,11 +171,8 @@ jobs:
          cp -r ../../SukiSU_patch/other/zram/lz4k/include/linux/* ./include/linux/
          cp -r ../../SukiSU_patch/other/zram/lz4k/lib/* ./lib/
          cp -r ../../SukiSU_patch/other/zram/lz4k/crypto/* ./crypto/
-         cp -r ../../SukiSU_patch/other/zram/lz4k_oplus ./lib/
          cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4kd.patch ./
          patch -p1 -F 3 < lz4kd.patch || true
-         cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4k_oplus.patch ./
-         patch -p1 -F 3 < lz4k_oplus.patch || true
 
       - name: Add Configuration Settings
         if: github.event.inputs.SUSFS_ENABLED == 'true'
@@ -204,16 +201,10 @@ jobs:
           sed -i 's/CONFIG_ZSMALLOC=m/CONFIG_ZSMALLOC=y/g' ./common/arch/arm64/configs/gki_defconfig
           sed -i 's/CONFIG_ZRAM=m/CONFIG_ZRAM=y/g' ./common/arch/arm64/configs/gki_defconfig
 
-          if [ -f ./common/android/gki_aarch64_modules ]; then
-              rm ./common/android/gki_aarch64_modules
-          fi
-          touch ./common/android/gki_aarch64_modules
-
           echo "CONFIG_CRYPTO_LZ4HC=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_CRYPTO_LZ4K=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_CRYPTO_LZ4KD=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_CRYPTO_842=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_CRYPTO_LZ4K_OPLUS=y" >> ./common/arch/arm64/configs/gki_defconfig
 
           sed -i 's/check_defconfig//' ./common/build.config.gki
           
