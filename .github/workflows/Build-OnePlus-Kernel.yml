@@ -243,6 +243,10 @@ jobs:
          cd kernel_workspace
          LTO=thin ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
 
+      - name: Prepare Kernel
+        run: |
+         cp kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-gki/dist/Image ./kernel_workspace/kernel
+
       - name: Upload Image
         uses: actions/upload-artifact@v4
         with:
