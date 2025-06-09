@@ -85,7 +85,7 @@ jobs:
          chmod a+x ~/repo
          sudo mv ~/repo /usr/local/bin/repo
 
-      - name: Initialize repo 和 sync
+      - name: Initialize repo and sync
         run: |
          mkdir kernel_workspace && cd kernel_workspace
          repo init -u https://github.com/OnePlusOSS/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
@@ -124,6 +124,7 @@ jobs:
         if: github.event.inputs.SUSFS_ENABLED == 'true'
         run: |
           cd kernel_workspace
+          git clone https://github.com/ShirkNeko/SukiSU_patch.git
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
           git clone https://github.com/TanakaLun/kernel_patches4mksu.git
           cd kernel_platform
@@ -166,18 +167,13 @@ jobs:
          cd kernel_workspace/kernel_platform/common
          cp ../../kernel_patches4mksu/hooks/new_hooks.patch ./
          patch -p1 -F 3 < new_hooks.patch
-
-         git clone https://github.com/ShirkNeko/SukiSU_patch.git
          
-         cd kernel_workspace/kernel_platform/common
          cp -r ../../SukiSU_patch/other/zram/lz4k/include/linux/* ./include/linux/
          cp -r ../../SukiSU_patch/other/zram/lz4k/lib/* ./lib/
          cp -r ../../SukiSU_patch/other/zram/lz4k/crypto/* ./crypto/
          cp -r ../../SukiSU_patch/other/zram/lz4k_oplus ./lib/
-
          cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4kd.patch ./
          patch -p1 -F 3 < lz4kd.patch || true
-
          cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4k_oplus.patch ./
          patch -p1 -F 3 < lz4k_oplus.patch || true
 
