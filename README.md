@@ -4,7 +4,7 @@
 
 含有以下特性：
 - 使用 manual hooks 的 rksu。
-- 最新的稳定版 SUSFS。
+- 最新的rksu SUSFS。
 - 支持 CONFIG_TMPFS_XATTR 特性,可以使用 mountify 完成模块挂载。
 - 支持以下ZRAM算法：lz4 lz4k lz4k_oplus lz4kd zstd zstdn lzo lzo-rle lz4hc 842 deflate。
 - 附带一个附加脚本模块，可以使设备显示真实电量，通过一些 ZRAM 参数和 LMK 参数来优化后台性能。
