@@ -3,7 +3,7 @@
 这是一个为 Hedwig (OnePlus Open) 编译的内核。
 
 含有以下特性：
-- 使用 manual hooks 的 KernelSU Next。
+- 使用 manual scope-minimized hooks 的 KernelSU Next。
 - 支持 CONFIG_TMPFS_XATTR 特性,可以使用 mountify 完成模块挂载。
 - 默认伪装成最新 Oneplus Open NA 的内核名称。
 
