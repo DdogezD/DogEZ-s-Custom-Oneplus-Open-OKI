@@ -99,7 +99,7 @@ jobs:
           cd kernel_workspace
           git clone https://github.com/devnoname120/kernelsu-coccinelle
           cd kernelsu-coccinelle/scope-minimized-hooks
-          ./apply.sh /kernel_workspace/kernel_platform
+          ./apply.sh ../kernel_platform
 
       - name: Add Configuration Settings
         run: |
