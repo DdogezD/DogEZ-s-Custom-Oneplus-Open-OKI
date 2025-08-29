@@ -1,4 +1,4 @@
-name: Build OnePlus_Kernel by coccinelle
+name: Minimal-Scope Patch by coccinelle（KernelSU Next）
 on:
   workflow_dispatch:
     inputs:
@@ -73,24 +73,18 @@ jobs:
          sed -i 's/ -dirty//g' kernel_platform/msm-kernel/scripts/setlocalversion
 
 
-      - name: Add KernelSU
+      - name: Add KernelSU Next
         run: |
           cd kernel_workspace/kernel_platform
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -
-
-      - name: Handle KernelSU Version
-        run: |
-        
-          cd kernel_workspace/kernel_platform/KernelSU-Next
+          cd ./KernelSU-Next
           MAKE_FILE="kernel/Makefile"
           DEFAULT_VERSION=11998
-
           if [[ "$KERNEL_VER" == "default" ]]; then
            KSU_VERSION=$(($(git rev-list --count HEAD) + 10200))
           else
            KSU_VERSION="$KERNEL_VER"
           fi
-
           sed -i "s/^DKSU_VERSION.*/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
           echo "KSUVER=${KSU_VERSION}" >> $GITHUB_ENV
 
