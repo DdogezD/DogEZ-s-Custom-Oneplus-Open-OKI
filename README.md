@@ -7,8 +7,6 @@
 - 支持 CONFIG_TMPFS_XATTR 特性,可以使用 mountify 完成模块挂载。
 - 默认伪装成最新 Oneplus Open NA 的内核名称。
 
-已知问题：SUSFS 与 Magical 模块实现冲突，但是可以用 Mountify 来代替模块系统的挂载。
-
 # 致谢
 
 - [KernelSU](https://github.com/tiann/KernelSU)
