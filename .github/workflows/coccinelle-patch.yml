@@ -1,4 +1,4 @@
-name: Build OnePlus_Kernel
+name: Build OnePlus_Kernel by coccinelle
 on:
   workflow_dispatch:
     inputs:
@@ -81,19 +81,18 @@ jobs:
       - name: Handle KernelSU Version
         run: |
         
-         cd kernel_workspace/kernel_platform/KernelSU
-         MAKE_FILE="kernel/Makefile"
-         DEFAULT_VERSION=16
+          cd kernel_workspace/kernel_platform/KernelSU-Next
+          MAKE_FILE="kernel/Makefile"
+          DEFAULT_VERSION=11998
 
-         if [[ "$KERNEL_VER" == "default" ]]; then
-          KSU_VERSION=$(($(git rev-list --count HEAD) + 10200))
-         else
-          KSU_VERSION="$KERNEL_VER"
-         fi
+          if [[ "$KERNEL_VER" == "default" ]]; then
+           KSU_VERSION=$(($(git rev-list --count HEAD) + 10200))
+          else
+           KSU_VERSION="$KERNEL_VER"
+          fi
 
-         sed -i "s/^DKSU_VERSION.*/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
-         echo "KSUVER=${KSU_VERSION}" >> $GITHUB_ENV
-
+          sed -i "s/^DKSU_VERSION.*/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
+          echo "KSUVER=${KSU_VERSION}" >> $GITHUB_ENV
 
       - name: Apply KernelSU-Next by coccinelle
         run: |
