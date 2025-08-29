@@ -26,12 +26,10 @@ on:
         description: "自定义内核名称"
         required: true
         default: '-android13-8-o-01130-gdcaeece55887'
-
       KERNEL_VER:
         description: "自定义版本"
         required: true
         default: 'default'
-
       kernelsu_version:
         description: "选择 KSU 版本"
         required: true
@@ -89,16 +87,23 @@ jobs:
            echo "BRANCH=-" >> $GITHUB_ENV
           cd kernel_workspace/kernel_platform
           curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash ${{ env.BRANCH }}
-          cd kernel_workspace/kernel_platform/KernelSU-Next
-          MAKE_FILE="kernel/Makefile"
-          DEFAULT_VERSION=11998
-         if [[ "${{ github.event.inputs.KERNEL_VER }}" == "default" ]]; then
-            KSU_VERSION=$(( $(git rev-list --count HEAD) + 10200 ))
+
+      - name: Handle KernelSU Version
+        run: |
+        
+         cd kernel_workspace/kernel_platform/KernelSU
+         MAKE_FILE="kernel/Makefile"
+         DEFAULT_VERSION=16
+
+         if [[ "$KERNEL_VER" == "default" ]]; then
+          KSU_VERSION=$(($(git rev-list --count HEAD) + 10200))
          else
-            KSU_VERSION=${{ github.event.inputs.KERNEL_VER }}
+          KSU_VERSION="$KERNEL_VER"
          fi
-         sed -i "s/DKSU_VERSION=${DEFAULT_VERSION}/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
+
+         sed -i "s/^DKSU_VERSION.*/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
          echo "KSUVER=${KSU_VERSION}" >> $GITHUB_ENV
+
 
       - name: Apply KernelSU-Next by coccinelle
         run: |
