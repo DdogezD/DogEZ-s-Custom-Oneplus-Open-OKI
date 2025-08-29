@@ -30,14 +30,6 @@ on:
         description: "自定义版本"
         required: true
         default: 'default'
-      kernelsu_version:
-        description: "选择 KSU 版本"
-        required: true
-        type: choice
-        options:
-          - tag[Releases]
-          - main[Ci]
-        default: main[Ci]
 
 jobs:
   build:
@@ -83,10 +75,8 @@ jobs:
 
       - name: Add KernelSU
         run: |
-          if [[ "${{ github.event.inputs.kernelsu_version }}" == "tag[Releases]" ]]; then
-           echo "BRANCH=-" >> $GITHUB_ENV
           cd kernel_workspace/kernel_platform
-          curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash ${{ env.BRANCH }}
+          curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -
 
       - name: Handle KernelSU Version
         run: |
