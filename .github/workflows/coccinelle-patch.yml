@@ -105,7 +105,7 @@ jobs:
         run: |
           cd kernel_workspace/kernel_platform
           curl -LSs "https://raw.githubusercontent.com/DdogezD/KernelSU-Next-kpm2main/next/kernel/setup.sh" | bash -next
-          cd ./KernelSU-Next
+          cd ./KernelSU-Next-kpm2main
           MAKE_FILE="kernel/Makefile"
           DEFAULT_VERSION=11998
           if [[ "$KERNEL_VER" == "default" ]]; then
