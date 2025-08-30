@@ -58,7 +58,7 @@ jobs:
          opam init -y --disable-sandboxing
          eval $(opam env)
          opam update
-         opam install -y coccinelle.1.3.0
+         opam install -y --assume-depexts coccinelle.1.3.0
 
 
       - name: Install repo tool
