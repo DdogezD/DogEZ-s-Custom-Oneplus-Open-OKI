@@ -31,7 +31,7 @@ on:
         required: true
         default: 'default'
       TMPFS_XATTR:
-        description: "覆写 tmpfs 支持扩展属性 (Required by Mountify)"
+        description: "覆写 tmpfs 支持扩展属性"
         required: true
         type: choice
         options:
@@ -96,7 +96,7 @@ jobs:
       - name: Patch Kernel by Coccinelle
         run: |
          cd kernel_workspace
-         git clone https://github.com/devnoname120/kernelsu-coccinelle
+         git clone https://github.com/DdogezD/kernelsu-coccinelle
          cd kernelsu-coccinelle/scope-minimized-hooks
          eval $(opam env)
          ./apply.sh ../../kernel_platform/common
@@ -148,7 +148,7 @@ jobs:
       - name: Intergate SukiSU KPM
         run: |
          cd kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-gki/dist/
-         curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU_patch/refs/heads/main/kpm/patch_linux" -o patch_linux
+         curl -LSs "https://raw.githubusercontent.com/DdogezD/SukiSU_patch/refs/heads/main/kpm/patch_linux" -o patch_linux
          chmod +x patch_linux
          ./patch_linux
          cp oImage ./kernel_workspace/kernel
