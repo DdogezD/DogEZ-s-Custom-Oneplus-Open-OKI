@@ -1,4 +1,4 @@
-name: Minimal-Scope Patch by coccinelle（KernelSU Next）
+name: KernelSU Next with scope-minimized manual hooks
 on:
   workflow_dispatch:
     inputs:
