@@ -30,6 +30,22 @@ on:
         description: "自定义版本"
         required: true
         default: 'default'
+      TMPFS_XATTR:
+        description: "控制 tmpfs 是否支持扩展属性"
+        required: true
+        type: choice
+        options:
+           - 'ON'
+           - 'OFF'
+        default: 'ON'
+      BBR_ALGORITHM:
+        description: "启用bbr算法"
+        required: true
+        type: choice
+        options:
+           - 'ON'
+           - 'OFF'
+        default: 'OFF'
 
 jobs:
   build:
@@ -104,7 +120,17 @@ jobs:
         run: |
           cd kernel_workspace/kernel_platform
           echo "CONFIG_KSU_KPROBES_HOOK=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_TMPFS_XATTR=y" >> ./common/arch/arm64/configs/gki_defconfig
+          if [ "${{ github.event.inputs.TMPFS_XATTR }}" == "ON" ]; then
+            echo "CONFIG_TMPFS_XATTR=y" >> ./common/arch/arm64/configs/gki_defconfig
+          fi
+          if [ "${{ github.event.inputs.BBR_ALGORITHM }}" == "ON" ]; then
+            echo "CONFIG_TCP_CONG_ADVANCED=y" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_TCP_CONG_BBR=y" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_NET_SCH_FQ=y" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_TCP_CONG_BIC=n" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_TCP_CONG_WESTWOOD=n" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_TCP_CONG_HTCP=n" >> ./common/arch/arm64/configs/gki_defconfig
+          fi
           sed -i 's/check_defconfig//' ./common/build.config.gki
 
       - name: Add Linux version
