@@ -23,15 +23,15 @@ on:
         required: true
         default: '5.15'
       KERNEL_NAME:
-        description: "自定义内核名称"
+        description: "自定义 Linux version 字符串"
         required: true
         default: '-android13-8-o-01129-g2e2297c38782'
       KERNEL_VER:
-        description: "自定义版本"
+        description: "自定义 KernelSU 版本号"
         required: true
         default: 'default'
       TMPFS_XATTR:
-        description: "控制 tmpfs 是否支持扩展属性 (Required by Mountify)"
+        description: "覆写 tmpfs 支持扩展属性 (Required by Mountify)"
         required: true
         type: choice
         options:
@@ -39,7 +39,7 @@ on:
            - 'OFF'
         default: 'ON'
       BBR_ALGORITHM:
-        description: "启用 bbr 算法"
+        description: "是否使 bbr 算法可用"
         required: true
         type: choice
         options:
