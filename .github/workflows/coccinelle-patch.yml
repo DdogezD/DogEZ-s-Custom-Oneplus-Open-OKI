@@ -151,7 +151,7 @@ jobs:
           curl -LSs "https://raw.githubusercontent.com/DdogezD/SukiSU_patch/refs/heads/main/kpm/patch_linux" -o patch_linux
           chmod +x patch_linux
           ./patch_linux
-          cp oImage kernel_workspace/kernel
+          cp oImage ../../../../kernel_workspace/kernel
 
       - name: Upload image
         uses: actions/upload-artifact@v4
