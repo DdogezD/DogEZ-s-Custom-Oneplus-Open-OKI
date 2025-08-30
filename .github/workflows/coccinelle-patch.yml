@@ -54,7 +54,12 @@ jobs:
       - name: Install dependencies
         run: |
          sudo apt update && sudo apt upgrade -y
-         sudo apt install -y python3 git curl coccinelle
+         sudo apt install -y python3 git curl ocaml ocaml-findlib opam
+         opam init -y --disable-sandboxing
+         eval $(opam env)
+         opam update
+         opam install -y coccinelle.1.3.0
+
 
       - name: Install repo tool
         run: |
