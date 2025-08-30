@@ -1,4 +1,4 @@
-name: KernelSU Next with scope-minimized manual hooks
+name: Co3kernel_build
 on:
   workflow_dispatch:
     inputs:
