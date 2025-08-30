@@ -82,6 +82,7 @@ jobs:
           cd kernel_workspace
           git clone https://github.com/DdogezD/kernelsu-coccinelle
           cd kernelsu-coccinelle/scope-minimized-hooks
+          eval $(opam env)
           ./apply.sh ../../kernel_platform/common
 
       - name: Add KernelSU Next
