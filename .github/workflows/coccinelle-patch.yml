@@ -72,6 +72,12 @@ jobs:
          sed -i 's/ -dirty//g' kernel_platform/common/scripts/setlocalversion
          sed -i 's/ -dirty//g' kernel_platform/msm-kernel/scripts/setlocalversion
 
+      - name: Patch Kernel by Coccinelle
+        run: |
+          cd kernel_workspace
+          git clone https://github.com/devnoname120/kernelsu-coccinelle
+          cd kernelsu-coccinelle/scope-minimized-hooks
+          ./apply.sh ../../kernel_platform/common
 
       - name: Add KernelSU Next
         run: |
@@ -87,13 +93,6 @@ jobs:
           fi
           sed -i "s/^DKSU_VERSION.*/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
           echo "KSUVER=${KSU_VERSION}" >> $GITHUB_ENV
-
-      - name: Patch Kernel by Coccinelle
-        run: |
-          cd kernel_workspace
-          git clone https://github.com/devnoname120/kernelsu-coccinelle
-          cd kernelsu-coccinelle/scope-minimized-hooks
-          ./apply.sh ../../kernel_platform/common
 
       - name: Add configuration settings
         run: |
