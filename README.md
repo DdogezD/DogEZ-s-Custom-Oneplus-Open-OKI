@@ -4,6 +4,7 @@
 
 含有以下特性：
 - 使用 manual scope-minimized hooks 的 KernelSU Next。
+- 尝试整合 KernelSU Next KPM 分支的内容。
 - 支持 CONFIG_TMPFS_XATTR 特性,可以使用 mountify 完成模块挂载。
 - 默认伪装成最新 Oneplus Open NA 的内核名称。
 
