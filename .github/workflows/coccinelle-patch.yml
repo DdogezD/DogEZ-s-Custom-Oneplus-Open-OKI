@@ -95,62 +95,66 @@ jobs:
 
       - name: Patch Kernel by Coccinelle
         run: |
-          cd kernel_workspace
-          git clone https://github.com/devnoname120/kernelsu-coccinelle
-          cd kernelsu-coccinelle/scope-minimized-hooks
-          eval $(opam env)
-          ./apply.sh ../../kernel_platform/common
+         cd kernel_workspace
+         git clone https://github.com/devnoname120/kernelsu-coccinelle
+         cd kernelsu-coccinelle/scope-minimized-hooks
+         eval $(opam env)
+         ./apply.sh ../../kernel_platform/common
 
       - name: Add KernelSU Next
         run: |
-          cd kernel_workspace/kernel_platform
-          curl -LSs "https://raw.githubusercontent.com/DdogezD/KernelSU-Next-kpm2main/next/kernel/setup.sh" | bash -
-          cd ./KernelSU-Next
-          MAKE_FILE="kernel/Makefile"
-          DEFAULT_VERSION=11998
-          if [[ "$KERNEL_VER" == "default" ]]; then
+         cd kernel_workspace/kernel_platform
+         curl -LSs "https://raw.githubusercontent.com/DdogezD/KernelSU-Next-kpm2main/next/kernel/setup.sh" | bash -
+         cd ./KernelSU-Next
+         MAKE_FILE="kernel/Makefile"
+         DEFAULT_VERSION=11998
+         if [[ "$KERNEL_VER" == "default" ]]; then
            KSU_VERSION=$(($(git rev-list --count HEAD) + 10200))
-          else
+         else
            KSU_VERSION="$KERNEL_VER"
-          fi
-          sed -i "s/^DKSU_VERSION.*/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
-          echo "KSUVER=${KSU_VERSION}" >> $GITHUB_ENV
+         fi
+         sed -i "s/^DKSU_VERSION.*/DKSU_VERSION=${KSU_VERSION}/" "${MAKE_FILE}"
+         echo "KSUVER=${KSU_VERSION}" >> $GITHUB_ENV
 
       - name: Add configuration settings
         run: |
-          cd kernel_workspace/kernel_platform
-          echo "CONFIG_KSU_KPROBES_HOOK=n" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_KALLSYMS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          if [ "${{ github.event.inputs.TMPFS_XATTR }}" == "ON" ]; then
-            echo "CONFIG_TMPFS_XATTR=y" >> ./common/arch/arm64/configs/gki_defconfig
-          fi
-          if [ "${{ github.event.inputs.BBR_ALGORITHM }}" == "ON" ]; then
-            echo "CONFIG_TCP_CONG_ADVANCED=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_TCP_CONG_BBR=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_NET_SCH_FQ=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_TCP_CONG_BIC=n" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_TCP_CONG_WESTWOOD=n" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_TCP_CONG_HTCP=n" >> ./common/arch/arm64/configs/gki_defconfig
-          fi
-          sed -i 's/check_defconfig//' ./common/build.config.gki
+         cd kernel_workspace/kernel_platform
+         echo "CONFIG_KSU_KPROBES_HOOK=n" >> ./common/arch/arm64/configs/gki_defconfig
+         echo "CONFIG_KALLSYMS=y" >> ./common/arch/arm64/configs/gki_defconfig
+         if [ "${{ github.event.inputs.TMPFS_XATTR }}" == "ON" ]; then
+           echo "CONFIG_TMPFS_XATTR=y" >> ./common/arch/arm64/configs/gki_defconfig
+         fi
+         if [ "${{ github.event.inputs.BBR_ALGORITHM }}" == "ON" ]; then
+           echo "CONFIG_TCP_CONG_ADVANCED=y" >> ./common/arch/arm64/configs/gki_defconfig
+           echo "CONFIG_TCP_CONG_BBR=y" >> ./common/arch/arm64/configs/gki_defconfig
+           echo "CONFIG_NET_SCH_FQ=y" >> ./common/arch/arm64/configs/gki_defconfig
+           echo "CONFIG_TCP_CONG_BIC=n" >> ./common/arch/arm64/configs/gki_defconfig
+           echo "CONFIG_TCP_CONG_WESTWOOD=n" >> ./common/arch/arm64/configs/gki_defconfig
+           echo "CONFIG_TCP_CONG_HTCP=n" >> ./common/arch/arm64/configs/gki_defconfig
+         fi
+         sed -i 's/check_defconfig//' ./common/build.config.gki
 
       - name: Set Linux version
         run: |
-          cd kernel_workspace/kernel_platform
-          sed -i '$s|echo "\$res"|echo "\${{ github.event.inputs.KERNEL_NAME }}"|' ./common/scripts/setlocalversion
-          sed -i "/stable_scmversion_cmd/s/-maybe-dirty//g" ./build/kernel/kleaf/impl/stamp.bzl
+         cd kernel_workspace/kernel_platform
+         sed -i '$s|echo "\$res"|echo "\${{ github.event.inputs.KERNEL_NAME }}"|' ./common/scripts/setlocalversion
+         sed -i "/stable_scmversion_cmd/s/-maybe-dirty//g" ./build/kernel/kleaf/impl/stamp.bzl
           
       - name: Build kernel
         run: |
          cd kernel_workspace
          LTO=thin ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} gki
 
-      - name: Prepare kernel
+      - name: Intergate SukiSU KPM
         run: |
-         cp kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-gki/dist/Image ./kernel_workspace/kernel
+         cd kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-gki/dist/
+         curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU_patch/refs/heads/main/kpm/patch_linux" -o patch_linux
+         chmod +x patch_linux
+         ./patch_linux
+         cp oImage ./kernel_workspace/kernel
 
       - name: Upload image
         uses: actions/upload-artifact@v4
         with:
-         name: Image-KernelSU-Next_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}
-         path: kernel_workspace/kernel
+         name: Image-KernelSU-Next-KPM_${{ env.KSUVER }}_${{ github.event.inputs.FEIL }}
+         path: kernel_workspace/kernel_withKPM
