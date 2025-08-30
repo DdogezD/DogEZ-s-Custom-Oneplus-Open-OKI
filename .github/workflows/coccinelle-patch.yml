@@ -93,7 +93,7 @@ jobs:
           sed -i 's/ -dirty//g' kernel_platform/common/scripts/setlocalversion
           sed -i 's/ -dirty//g' kernel_platform/msm-kernel/scripts/setlocalversion
 
-      - name: Patch Kernel by Coccinelle
+      - name: Patch kernel by Coccinelle
         run: |
           cd kernel_workspace
           git clone https://github.com/DdogezD/kernelsu-coccinelle
