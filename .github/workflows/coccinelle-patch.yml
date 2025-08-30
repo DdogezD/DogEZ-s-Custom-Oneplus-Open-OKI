@@ -31,7 +31,7 @@ on:
         required: true
         default: 'default'
       TMPFS_XATTR:
-        description: "控制 tmpfs 是否支持扩展属性"
+        description: "控制 tmpfs 是否支持扩展属性 (Required by Mountify)"
         required: true
         type: choice
         options:
@@ -39,7 +39,7 @@ on:
            - 'OFF'
         default: 'ON'
       BBR_ALGORITHM:
-        description: "启用bbr算法"
+        description: "启用 bbr 算法"
         required: true
         type: choice
         options:
